@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Список товаров на сайте
+{% endblock title %}
+
+{% block content %}
+  <div class="container py-5">     
+    <h1>Это главная страница</h1>
+    <article>
+        <div class="row">
+            <form 
+                class="d-flex g-4 needs-validation"
+                method="post" 
+                action="{% url 'trucks:main' %}"
+                enctype="multipart/form-data"
+                needs-validation
+            >
+                {% csrf_token %}
+                {% for field in form %}
+                    {% load user_filters %}
+                    <div class="col-md-2">
+                        {{ field|addclass:'form-control'  }}
+                                                    
+                        {% if field.help_text %}
+                            <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+                            {{ field.help_text }}
+                            {% if field.field.required %}
+                            <span class="required text-danger">*</span>
+                            {% endif %}
+                            </small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="col-12 mx-1">
+                    <button class="btn btn-primary" type="submit">Применить</button>
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Бортовой номер</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col">Макс. грузоподъемность</th>
+                        <th scope="col">Текущий вес</th>
+                        <th scope="col">Перегруз %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for truck in trucks %}
+                        <tr>
+                            <td>{{ truck.board_number }}</td>
+                            <td>{{ truck.vehicle_type }}</td>
+                            <td>{{ truck.vehicle_type.load_capacity }}</td>
+                            <td>{{ truck.cur_capacity }}</td>
+                            <td>{{ truck.overload }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        </div>
+
+    </article>
+  </div>  
+{% endblock content %}
