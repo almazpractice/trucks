@@ -45,6 +45,5 @@ $ python manage.py runserver
 
 
 Разработчик:
-- :white_check_mark: [almazpractice](https://github.com/almazpractice)
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/a_gimaev)
 
