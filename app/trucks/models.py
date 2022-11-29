@@ -25,7 +25,7 @@ class Truck(models.Model):
     def get_overload(self):
         load_capacity = self.vehicle_type.load_capacity
         overload = (self.cur_capacity - load_capacity) * 100 / load_capacity
-        return f"{overload}%" if overload > 0 else "-"
+        return f"{overload:.1f}%" if overload > 0 else "-"
 
     class Meta:
         verbose_name = "Самосвал"
