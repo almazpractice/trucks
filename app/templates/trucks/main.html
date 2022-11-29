@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Список товаров на сайте
+{% endblock title %}
+
+{% block content %}
+  <div class="container py-5">     
+    <h1>Это главная страница</h1>
+    <article>
+        <div class="row">
+            {% comment %} {% for item in items %}
+                <div class="col-sm-3 mr-1 mb-3">
+                    <div class="card">
+                    <div class="card-body">
+                        <div >
+                            <h5 class="card-title">
+                                {{ item.name }}
+                                {% if item.added %}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"> {{ item.added }} </span>
+                                {% endif %}
+                            </h5>
+                        </div>
+                        <p class="card-text">{{ item.description }}</p>
+                        <a href="{% url 'card:item' item.id %}" class="btn btn-secondary">Смотреть детали</a>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %} {% endcomment %}
+        </div>
+
+    </article>
+  </div>  
+{% endblock content %}
