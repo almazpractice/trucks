@@ -20,12 +20,7 @@ class Truck(models.Model):
         on_delete=models.CASCADE,
         related_name="truck",
     )
-    cur_capacity = models.PositiveIntegerField()
-
-    def get_overload(self):
-        load_capacity = self.vehicle_type.load_capacity
-        overload = (self.cur_capacity - load_capacity) * 100 / load_capacity
-        return f"{overload:.1f}%" if overload > 0 else "-"
+    cur_load = models.PositiveIntegerField()
 
     class Meta:
         verbose_name = "Самосвал"
@@ -33,3 +28,9 @@ class Truck(models.Model):
 
     def __str__(self) -> str:
         return self.board_number
+
+    @property
+    def get_overload(self):
+        load_capacity = self.vehicle_type.load_capacity
+        overload = (self.cur_load - load_capacity) * 100 / load_capacity
+        return f"{overload:.1f}%" if overload > 0 else "-"

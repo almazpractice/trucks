@@ -15,8 +15,8 @@ class TruckTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Truck)
 class TruckAdmin(admin.ModelAdmin):
-    list_display = ("pk", "board_number", "vehicle_type", "cur_capacity")
+    list_display = ("pk", "board_number", "vehicle_type", "cur_load")
     list_display_links = ("pk", "board_number")
-    list_editable = ("cur_capacity", "vehicle_type")
+    list_editable = ("cur_load", "vehicle_type")
     search_fields = ("board_number",)
     empty_value_display = "-пусто-"

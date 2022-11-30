@@ -1,32 +1,14 @@
-from django.db.models import F
-from django.shortcuts import render
+from django.views.generic.list import ListView
 
-from .forms import TruckForm
+from .filters import TruckFilter
 from .models import Truck
 
 
-def get_overload(obj):
-    load_capacity = obj.vehicle_type.load_capacity
-    overload = (obj.cur_capacity - load_capacity) * 100 / load_capacity
-    return f"{overload:.1f}%" if overload > 0 else "-"
+class TrucksView(ListView):
+    template_name = "trucks/main.html"
+    model = Truck
 
-
-def main(request):
-    form = TruckForm(request.POST or None)
-    trucks = Truck.objects.all().annotate(
-        overload=(F("cur_capacity") - F("vehicle_type__load_capacity"))
-        * 100
-        / F("vehicle_type__load_capacity")
-    )
-    if form.is_valid():
-        trucks = Truck.objects.filter(
-            vehicle_type=form.data.get("vehicle_type"),
-        ).annotate(
-            overload=(F("cur_capacity") - F("vehicle_type__load_capacity"))
-            * 100
-            / F("vehicle_type__load_capacity")
-        )
-        context = {"form": form, "trucks": trucks}
-        return render(request, "trucks/main.html", context)
-    context = {"form": form, "trucks": trucks}
-    return render(request, "trucks/main.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = TruckFilter(self.request.GET, self.get_queryset())
+        return context

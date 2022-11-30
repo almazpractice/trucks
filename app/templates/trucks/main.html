@@ -9,32 +9,9 @@
     <h1>Это главная страница</h1>
     <article>
         <div class="row">
-            <form 
-                class="d-flex g-4 needs-validation"
-                method="post" 
-                action="{% url 'trucks:main' %}"
-                enctype="multipart/form-data"
-                needs-validation
-            >
-                {% csrf_token %}
-                {% for field in form %}
-                    {% load user_filters %}
-                    <div class="col-md-2">
-                        {{ field|addclass:'form-control'  }}
-                                                    
-                        {% if field.help_text %}
-                            <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
-                            {{ field.help_text }}
-                            {% if field.field.required %}
-                            <span class="required text-danger">*</span>
-                            {% endif %}
-                            </small>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                <div class="col-12 mx-1">
-                    <button class="btn btn-primary" type="submit">Применить</button>
-                </div>
+            <form action="" method="get">
+                {{filter.form}}
+                <input type="submit" value="Filter">
             </form>
             <table class="table">
                 <thead>
@@ -47,13 +24,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for truck in trucks %}
+                    {%  for truck in filter.qs %}
                         <tr>
                             <td>{{ truck.board_number }}</td>
                             <td>{{ truck.vehicle_type }}</td>
                             <td>{{ truck.vehicle_type.load_capacity }}</td>
-                            <td>{{ truck.cur_capacity }}</td>
-                            <td>{{ truck.overload }}</td>
+                            <td>{{ truck.cur_load }}</td>
+                            <td>{{ truck.get_overload }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
